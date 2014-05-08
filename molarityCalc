@@ -1,0 +1,45 @@
+import sys
+import periodic 
+done = False
+usrSymbols = []
+usrElements = []
+currCount = 0
+totalMass =0
+print("This program determines the molarity of a solution")
+gramsSolute = float(raw_input("Please Enter the total amount of solute you've dissolved in the solution in grams: "))
+
+while done != True:
+    currSymbol = raw_input("Please enter a solute element, Type done when finished: ")
+    if(currSymbol.upper() != "DONE"):
+        currElement = periodic.element(currSymbol)
+        usrElements.append(currElement)
+        usrSymbols.append(currSymbol)
+        print("Success, " + currSymbol + " has been recorded.")
+    else:
+        done = True
+
+done = False
+d = {}
+for i in usrElements:
+    currAtomNum = float(raw_input ("How many atoms of " + usrSymbols[currCount].upper() +": "))
+    d.update({usrSymbols[currCount]:currAtomNum})
+    currCount +=1
+    
+litrsWater = float(input("How many liters of water make up your solution? "))
+attribute = "mass"
+
+currCount =0
+for key in d.keys():
+    print key
+    currAtomAmount = d[key]
+    print
+    print(str(currAtomAmount) + " Atoms of " + key.upper() )
+    element = periodic.element(key)
+    mass = getattr(element, attribute)
+    print
+    mass = mass * currAtomAmount
+    totalMass += mass
+    print("The mass of " +str(currAtomAmount)+" elements of " +key.upper() +" is: " + str(totalMass))
+molarity = (1/totalMass * gramsSolute)/litrsWater
+print
+print("The Molarity of this solution is: " + str(molarity))
